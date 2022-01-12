@@ -23,7 +23,6 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 443, host: 443
 
   config.vm.provision "shell",
-
       inline: "/vagrant/vagrant-ansible.sh",
       privileged: false
 end
