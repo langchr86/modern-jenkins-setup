@@ -1,0 +1,61 @@
+version: '3.5'
+services:
+  jenkins-controller:
+    container_name: jenkins-controller
+    build: {{ jenkins_app_folder }}
+    restart: always
+    environment:
+      - JAVA_OPTS=-Duser.timezone=Europe/Zurich -Djenkins.install.runSetupWizard=false -Dhudson.slaves.WorkspaceList=-
+      - CASC_JENKINS_CONFIG=/var/jenkins_config
+      - DOCKER_HOST=tcp://docker:2376
+      - DOCKER_CERT_PATH=/certs/client
+      - DOCKER_TLS_VERIFY=1
+    networks:
+      - jenkins
+    volumes:
+      - jenkins-home:/var/jenkins_home
+      - jenkins-docker-certs:/certs/client:ro
+      - jenkins-www:/var/www/jenkins
+      - {{ jenkins_config_folder }}:/var/jenkins_config:ro
+
+  jenkins-dind:
+    container_name: jenkins-dind
+    image: docker:dind
+    privileged: true
+    restart: always
+    environment:
+      - DOCKER_TLS_CERTDIR=/certs
+    networks:
+      jenkins:
+        aliases:
+          - docker
+    volumes:
+      - jenkins-home:/var/jenkins_home
+      - jenkins-docker-certs:/certs/client
+      - jenkins-www:/var/www/jenkins
+      - {{ jenkins_docker_folder }}/daemon.json:/etc/docker/daemon.json:ro
+    ports:
+      - 2376:2376
+
+  jenkins-caddy:
+    container_name: jenkins-caddy
+    image: caddy:2.4.6
+    restart: always
+    networks:
+      jenkins:
+    volumes:
+      - {{ jenkins_caddy_folder }}/Caddyfile:/etc/caddy/Caddyfile
+      - jenkins-caddy-data:/data
+      - jenkins-www:/var/www/jenkins
+    ports:
+      - 80:80
+      - 443:443
+
+networks:
+  jenkins:
+
+volumes:
+  jenkins-home:
+  jenkins-docker-certs:
+  jenkins-www:
+  jenkins-caddy-data:

@@ -1,0 +1,22 @@
+jenkins:
+  remotingSecurity:
+    enabled: true
+
+unclassified:
+  location:
+    adminAddress: "nobody@nowhere"
+    url: "https://jenkins.localhost/"
+  buildTimestamp:
+    enableBuildTimestamp: true
+    pattern: "yyyy-MM-dd_HH-mm-ss"
+    timezone: "Europe/Zurich"
+  buildDiscarders:
+    configuredBuildDiscarders:
+      - "jobBuildDiscarder"
+      - defaultBuildDiscarder:
+          discarder:
+            logRotator:
+              artifactDaysToKeepStr: "50"
+              artifactNumToKeepStr: "5"
+              daysToKeepStr: "100"
+              numToKeepStr: "10"

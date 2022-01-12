@@ -1,0 +1,10 @@
+jenkins.localhost {
+  reverse_proxy jenkins-controller:8080
+}
+
+artifacts.localhost {
+  root * /var/www/jenkins
+  file_server {
+    browse
+  }
+}

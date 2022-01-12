@@ -1,0 +1,48 @@
+---
+
+- name: "Create config folders"
+  become: yes
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "755"
+  with_items:
+    - "{{ jenkins_app_folder }}"
+    - "{{ jenkins_config_folder }}"
+    - "{{ jenkins_config_folder }}/jobs"
+    - "{{ jenkins_docker_folder }}"
+    - "{{ jenkins_caddy_folder }}"
+
+- name: "Copy docker daemon config to {{ jenkins_app_folder }}"
+  become: yes
+  copy:
+    src: "files/Dockerfile"
+    dest: "{{ jenkins_app_folder }}"
+  register: dockerfile
+
+- name: "Copy jenkins config files to {{ jenkins_config_folder }}"
+  become: yes
+  copy:
+    src: "files/jenkins_config/"
+    dest: "{{ jenkins_config_folder }}"
+  register: jobs_config
+
+- name: "Copy docker daemon config to {{ jenkins_docker_folder }}"
+  become: yes
+  copy:
+    src: "files/docker/daemon.json"
+    dest: "{{ jenkins_docker_folder }}"
+  register: docker_config
+
+- name: "Copy caddy config to {{ jenkins_caddy_folder }}"
+  become: yes
+  copy:
+    src: "files/caddy/Caddyfile"
+    dest: "{{ jenkins_caddy_folder }}"
+  register: caddy_config
+
+- include_role:
+    name: docker-compose-service
+  vars:
+    service_name: "jenkins"
+    force_restart: "{{ dockerfile.changed }} or {{ jobs_config.changed }} or {{ docker_config.changed }} or {{ caddy_config.changed }}"
