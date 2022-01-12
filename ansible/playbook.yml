@@ -1,0 +1,8 @@
+- hosts: all
+
+  pre_tasks:
+    - import_tasks: tasks/ubuntu_apt.yml
+    - import_tasks: tasks/basic_setup.yml
+
+  roles:
+    - role: dockerio

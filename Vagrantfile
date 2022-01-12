@@ -21,4 +21,9 @@ Vagrant.configure("2") do |config|
   config.vm.network "private_network", type: "dhcp"
   config.vm.network "forwarded_port", guest: 80, host: 80
   config.vm.network "forwarded_port", guest: 443, host: 443
+
+  config.vm.provision "shell",
+
+      inline: "/vagrant/vagrant-ansible.sh",
+      privileged: false
 end

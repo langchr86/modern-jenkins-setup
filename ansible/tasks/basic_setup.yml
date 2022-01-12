@@ -1,0 +1,30 @@
+- name: Install basic tools
+  become: yes
+  package:
+    name:
+      - tree
+      - nano
+      - wget
+      - unzip
+      - tar
+      - net-tools
+
+- name: Install system statistics tools
+  become: yes
+  package:
+    name:
+      - iotop
+      - htop
+      - sysstat
+      - dstat
+
+- name: Set locale to en_US.UTF-8
+  become: yes
+  locale_gen:
+    name: en_US.UTF-8
+
+- name: Set default locale to en_US.UTF-8
+  become: yes
+  lineinfile: dest=/etc/default/locale
+    regexp="LC_ALL"
+    line="LC_ALL=\"en_US.UTF-8\""
