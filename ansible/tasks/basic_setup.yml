@@ -18,6 +18,11 @@
       - sysstat
       - dstat
 
+- name: Set timezone to Europe/Zurich
+  become: yes
+  timezone:
+    name: Europe/Zurich
+
 - name: Set locale to en_US.UTF-8
   become: yes
   locale_gen:
