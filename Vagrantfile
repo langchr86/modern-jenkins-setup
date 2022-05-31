@@ -1,6 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+vm_name = "modern-jenkins"
+
 Vagrant.configure("2") do |config|
 
   config.vm.box = "geerlingguy/ubuntu2004"
@@ -10,13 +12,14 @@ Vagrant.configure("2") do |config|
   config.ssh.forward_x11 = true
 
   config.vm.provider "virtualbox" do |vb|
+    vb.name = vm_name
     vb.memory = "4096"
     vb.cpus = 4
     vb.customize ["modifyvm", :id, "--vram", "128"]
     vb.customize ["modifyvm", :id, "--spec-ctrl", "on"]
   end
 
-  config.vm.hostname = "modern-jenkins"
+  config.vm.hostname = vm_name
 
   config.vm.network "private_network", type: "dhcp"
   config.vm.network "forwarded_port", guest: 80, host: 80
