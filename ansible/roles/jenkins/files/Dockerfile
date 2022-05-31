@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:2.319.1-lts-jdk11
+FROM jenkins/jenkins:2.332.3-lts-jdk11
 
 USER root
 
@@ -10,18 +10,11 @@ RUN apt-get update \
     gnupg2 \
     software-properties-common
 
-RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
-RUN apt-key fingerprint 0EBFCD88
-RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
-RUN apt-get update \
-  && apt-get install -y --no-install-recommends \
-    docker-ce-cli
-
 # prepare folder for artifact publishing
 RUN mkdir -p /var/www/jenkins && chown jenkins:jenkins -R /var/www/jenkins
 
 USER jenkins
-RUN jenkins-plugin-cli --plugins "\
+RUN jenkins-plugin-cli --plugins \
   build-discarder:60.v1747b0eb632a \
   build-timestamp:1.0.3 \
   build-user-vars-plugin:1.8 \
@@ -41,4 +34,3 @@ RUN jenkins-plugin-cli --plugins "\
   throttle-concurrents:2.8 \
   workflow-aggregator:581.v0c46fa_697ffd \
   workflow-multibranch:716.vc692a_e52371b_ \
-  "
