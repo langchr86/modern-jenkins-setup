@@ -10,6 +10,14 @@ RUN apt-get update \
     gnupg2 \
     software-properties-common
 
+# install docker CLI to be used in docker-workflow plugin
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
+RUN apt-key fingerprint 0EBFCD88
+RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends \
+    docker-ce-cli
+
 # prepare folder for artifact publishing
 RUN mkdir -p /var/www/jenkins && chown jenkins:jenkins -R /var/www/jenkins
 
