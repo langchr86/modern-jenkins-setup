@@ -1,0 +1,52 @@
+#!/usr/bin/env groovy
+
+pipeline {
+  options {
+    disableConcurrentBuilds()
+  }
+  agent {
+    dockerfile {
+      filename 'example_repos/app/Dockerfile'
+      reuseNode true
+    }
+  }
+  stages {
+    stage('Info') {
+      steps {
+        sh 'env | sort'
+      }
+    }
+    stage('Build') {
+      steps {
+        sh '''
+          mkdir -p build
+          cd build
+          printf "#!/bin/bash -e\necho hello\n" > app.sh
+          chmod +x app.sh
+        '''
+      }
+    }
+    stage('Test') {
+      steps {
+        sh 'build/app.sh'
+      }
+      post {
+        always {
+          sh 'echo "here we could collect test results"'
+        }
+      }
+    }
+    stage('Archive') {
+      steps {
+        archiveArtifacts artifacts: 'build/app.sh', fingerprint: true
+      }
+    }
+    stage('Cleanup') {
+      steps {
+        sh '''
+          rm -rf build
+        '''
+      }
+    }
+  }
+}
