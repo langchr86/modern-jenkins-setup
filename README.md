@@ -129,5 +129,20 @@ Jenkins itself provides various tools for automated updating.
 See: [Preinstalling plugins](https://github.com/jenkinsci/docker/blob/master/README.md#preinstalling-plugins)
 
 
+
+Docker DNS problems
+-------------------
+
+In some networks Docker-in-Docker may have problems to find the Google DNS servers.
+In this case you can add an explicit IP for your network internal DNS in the [`daemon.json`] file.
+For example like:
+
+~~~~~~
+"dns": ["172.18.0.100", "8.8.8.8", "8.8.4.4"]
+~~~~~~
+
+
+
 [`Dockerfile`]: ansible/roles/jenkins/files/Dockerfile
 [`docker-compose.yml`]: ansible/roles/jenkins/templates/docker-compose.yml
+[`daemon.json`]: ansible/roles/jenkins/files/docker/daemon.json
