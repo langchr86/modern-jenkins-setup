@@ -1,0 +1,46 @@
+#!/usr/bin/env groovy
+
+pipeline {
+  options {
+    disableConcurrentBuilds()
+  }
+  triggers {
+    upstream upstreamProjects: "app-multi/${JOB_BASE_NAME}"
+  }
+  agent {
+    dockerfile {
+      filename 'example_repos/package/Dockerfile'
+      reuseNode true
+    }
+  }
+  stages {
+    stage('Info') {
+      steps {
+        sh 'env | sort'
+      }
+    }
+    stage('Package') {
+      steps {
+        copyArtifacts projectName: 'app-multi/${JOB_BASE_NAME}'
+        sh '''
+          mkdir -p package
+          cd package
+          cp ${WORKSPACE}/build/app.sh .
+          zip package.zip app.sh
+        '''
+      }
+    }
+    stage('Archive') {
+      steps {
+        archiveArtifacts artifacts: "package/package.zip", fingerprint: true
+      }
+    }
+    stage('Cleanup') {
+      steps {
+        sh '''
+          rm -rf package
+        '''
+      }
+    }
+  }
+}

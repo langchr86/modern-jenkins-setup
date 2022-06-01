@@ -1,0 +1,24 @@
+jobs:
+  - script: >
+      multibranchPipelineJob('package-multi') {
+        branchSources {
+          git {
+            id('package-multi')
+            remote('https://github.com/langchr86/modern-jenkins-setup.git')
+          }
+        }
+        orphanedItemStrategy {
+          discardOldItems {
+          }
+        }
+        factory {
+          workflowBranchProjectFactory {
+            scriptPath('example_repos/package/Jenkinsfile')
+          }
+        }
+        triggers {
+          periodicFolderTrigger {
+            interval('2m')
+          }
+        }
+      }
