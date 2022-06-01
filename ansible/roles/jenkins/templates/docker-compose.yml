@@ -11,7 +11,7 @@ services:
       - DOCKER_CERT_PATH=/certs/client
       - DOCKER_TLS_VERIFY=1
     networks:
-      - jenkins
+      jenkins:
     volumes:
       - jenkins-home:/var/jenkins_home
       - jenkins-docker-certs:/certs/client:ro
