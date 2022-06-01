@@ -143,6 +143,43 @@ For example like:
 
 
 
+Documentation
+-------------
+
+
+### Jenkins Config as Code (JCasC)
+
+* [configuration-as-code-plugin](https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/README.md)
+* [Tutorial](https://opensource.com/article/20/4/jcasc-jenkins)
+
+
+### Job DSL
+
+Always use the own instance as reference for the syntax.
+This will only show features/plugins that are available on this instance.
+
+* [JobDSL-API](https://jenkins.localhost/plugin/job-dsl/api-viewer/index.html#)
+
+
+### Declarative Pipelines
+
+This is still groovy syntax but a more abstracted DSL to define Jenkins Pipelines.
+
+* [Declarative Pipeline](https://www.jenkins.io/doc/book/pipeline/syntax/)
+* [Agents](https://www.jenkins.io/doc/book/pipeline/syntax/#agent)
+* [Pipeline Steps](https://www.jenkins.io/doc/pipeline/steps/)
+
+
+### Useful features and plugins
+
+* [copyartifact](https://www.jenkins.io/doc/pipeline/steps/copyartifact/)
+* [build-discarder](https://plugins.jenkins.io/build-discarder/)
+* [docker-workflow](https://www.jenkins.io/doc/pipeline/steps/docker-workflow/)
+* [Docker Pipeline](https://www.jenkins.io/doc/book/pipeline/docker/)
+
+
+
+
 [`Dockerfile`]: ansible/roles/jenkins/files/Dockerfile
 [`docker-compose.yml`]: ansible/roles/jenkins/templates/docker-compose.yml
 [`daemon.json`]: ansible/roles/jenkins/files/docker/daemon.json
