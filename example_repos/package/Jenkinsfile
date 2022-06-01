@@ -11,6 +11,7 @@ pipeline {
     dockerfile {
       filename 'example_repos/package/Dockerfile'
       reuseNode true
+      args  '--volume /var/www/jenkins:/publish:rw'
     }
   }
   stages {
@@ -33,6 +34,15 @@ pipeline {
     stage('Archive') {
       steps {
         archiveArtifacts artifacts: "package/package.zip", fingerprint: true
+      }
+    }
+    stage('Publish') {
+      steps {
+        sh '''
+          PUBLISH_DIR="/publish/${JOB_NAME}/${BUILD_TIMESTAMP}"
+          mkdir -p ${PUBLISH_DIR}
+          cp package/package.zip ${PUBLISH_DIR}
+        '''
       }
     }
     stage('Cleanup') {
