@@ -54,6 +54,18 @@ After that we can access the services directly:
 Because we use a local running instance of Caddy the insecure https certificate is expected.
 
 
+### Credentials
+
+Because we use SSH build agents we need some SSH credentials to connect to the agents.
+Simply add the credential here: [Global Credentials](https://jenkins.localhost/credentials/store/system/domain/_/newCredentials)
+
+* Select `SSH username and private key`.
+* ID: `modern-jenkins`
+* Username: `jenkins`
+* Use the complete content of the following file as private key: [rsa-key-modern-jenkins-20220602.opriv](credentials/rsa-key-modern-jenkins-20220602.opriv)
+* Passphrase: `modern`
+
+
 
 Working with the VM
 -------------------

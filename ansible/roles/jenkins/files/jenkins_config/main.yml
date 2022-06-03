@@ -1,6 +1,30 @@
 jenkins:
+  numExecutors: 0
   remotingSecurity:
     enabled: true
+  nodes:
+    - permanent:
+        labelString: "docker"
+        launcher:
+          ssh:
+            credentialsId: "modern-jenkins"
+            host: "jenkins-ssh-agent-1"
+            port: 22
+            sshHostKeyVerificationStrategy: "nonVerifyingKeyVerificationStrategy"
+        name: "ssh-agent-1"
+        remoteFS: "/var/jenkins/agent-1"
+        retentionStrategy: "always"
+    - permanent:
+        labelString: "docker"
+        launcher:
+          ssh:
+            credentialsId: "modern-jenkins"
+            host: "jenkins-ssh-agent-2"
+            port: 22
+            sshHostKeyVerificationStrategy: "nonVerifyingKeyVerificationStrategy"
+        name: "ssh-agent-2"
+        remoteFS: "/var/jenkins/agent-2"
+        retentionStrategy: "always"
 
 unclassified:
   location:
