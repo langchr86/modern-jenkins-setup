@@ -7,6 +7,15 @@ Example of a modern and easy to setup and maintain jenkins installation based on
 
 
 
+Disclaimer
+----------
+
+This is an example for a local jenkins installation.
+I tried to use the most flexible, modern and easiest approach.
+But this is still only one example of use cases and setup.
+There may exist many other valid or even better approaches.
+
+
 About
 -----
 
