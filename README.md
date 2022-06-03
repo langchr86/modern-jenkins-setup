@@ -151,6 +151,7 @@ Documentation
 
 * [configuration-as-code-plugin](https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/README.md)
 * [Tutorial](https://opensource.com/article/20/4/jcasc-jenkins)
+* [View the current live config](https://jenkins.localhost/configuration-as-code/viewExport)
 
 
 ### Job DSL
@@ -178,7 +179,20 @@ This is still groovy syntax but a more abstracted DSL to define Jenkins Pipeline
 * [Docker Pipeline](https://www.jenkins.io/doc/book/pipeline/docker/)
 
 
+### Nodes, Agents and Executors
 
+* [Managing Nodes](https://www.jenkins.io/doc/book/managing/nodes/)
+* [Inbound Agent in Docker](https://github.com/jenkinsci/remoting/blob/master/docs/inbound-agent.md)
+* [Instance Identity](https://jenkins.localhost/instance-identity/)
+
+
+
+Most relevant Files
+-------------------
+
+* [`Dockerfile`]
+* [`docker-compose.yml`]
+* [`daemon.json`]
 
 [`Dockerfile`]: ansible/roles/jenkins/files/Dockerfile
 [`docker-compose.yml`]: ansible/roles/jenkins/templates/docker-compose.yml
