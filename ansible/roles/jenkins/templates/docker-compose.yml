@@ -13,7 +13,7 @@ services:
     networks:
       jenkins:
     volumes:
-      - jenkins-home:/var/jenkins_home
+      - jenkins-controller-home:/var/jenkins_home
       - jenkins-docker-certs:/certs/client:ro
       - jenkins-www:/var/www/jenkins
       - {{ jenkins_config_folder }}:/var/jenkins_config:ro
@@ -30,7 +30,7 @@ services:
         aliases:
           - docker
     volumes:
-      - jenkins-home:/var/jenkins_home
+      - jenkins-controller-home:/var/jenkins_home
       - jenkins-docker-certs:/certs/client
       - jenkins-www:/var/www/jenkins
       - {{ jenkins_docker_folder }}/daemon.json:/etc/docker/daemon.json:ro
@@ -55,7 +55,7 @@ networks:
   jenkins:
 
 volumes:
-  jenkins-home:
+  jenkins-controller-home:
   jenkins-docker-certs:
   jenkins-www:
   jenkins-caddy-data:
