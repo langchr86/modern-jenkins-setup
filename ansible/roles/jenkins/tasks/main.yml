@@ -8,16 +8,17 @@
     mode: "755"
   with_items:
     - "{{ jenkins_app_folder }}"
+    - "{{ jenkins_dockerfiles_folder }}"
     - "{{ jenkins_config_folder }}"
     - "{{ jenkins_config_folder }}/jobs"
     - "{{ jenkins_docker_folder }}"
     - "{{ jenkins_caddy_folder }}"
 
-- name: "Copy docker daemon config to {{ jenkins_app_folder }}"
+- name: "Copy dockerfiles to {{ jenkins_dockerfiles_folder }}"
   become: yes
   copy:
-    src: "files/Dockerfile"
-    dest: "{{ jenkins_app_folder }}"
+    src: "files/dockerfiles/"
+    dest: "{{ jenkins_dockerfiles_folder }}"
   register: dockerfile
 
 - name: "Copy jenkins config files to {{ jenkins_config_folder }}"

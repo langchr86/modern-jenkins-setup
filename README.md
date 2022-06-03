@@ -104,12 +104,12 @@ docker-compose up --build
 Update jenkins and plugins
 --------------------------
 
-All plugins and corresponding versions are collected in the [`Dockerfile`].
+All plugins and corresponding versions are collected in the [Controller-Dockerfile].
 The easiest way to update to the newest versions is to first update all plugins.
 To do so just open the jenkins web-UI and go to the [plugin manager](https://jenkins.localhost/pluginManager/) page.
 Here we can see the newest version of each plugin.
-Update those version strings for all plugins listend in the [`Dockerfile`].
-Sometimes the name showed in the GUI do not directly match the name in the [`Dockerfile`].
+Update those version strings for all plugins listend in the [Controller-Dockerfile].
+Sometimes the name showed in the GUI do not directly match the name in the [Controller-Dockerfile].
 The real raw name can be observed by clicking onto the link behind the GUI name.
 After this we can restart the containers to see if everything is now up to date.
 The easiest way to achieve this is to use Vagrant:
@@ -190,10 +190,10 @@ This is still groovy syntax but a more abstracted DSL to define Jenkins Pipeline
 Most relevant Files
 -------------------
 
-* [`Dockerfile`]
+* [Controller-Dockerfile]
 * [`docker-compose.yml`]
 * [`daemon.json`]
 
-[`Dockerfile`]: ansible/roles/jenkins/files/Dockerfile
+[Controller-Dockerfile]: ansible/roles/jenkins/files/dockerfiles/jenkins-controller/Dockerfile
 [`docker-compose.yml`]: ansible/roles/jenkins/templates/docker-compose.yml
 [`daemon.json`]: ansible/roles/jenkins/files/docker/daemon.json

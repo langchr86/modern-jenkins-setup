@@ -3,4 +3,5 @@
 jenkins_app_folder: "/etc/jenkins"
 jenkins_config_folder: "{{ jenkins_app_folder }}/jenkins_jobs"
 jenkins_docker_folder: "{{ jenkins_app_folder }}/docker"
+jenkins_dockerfiles_folder: "{{ jenkins_app_folder }}/dockerfiles"
 jenkins_caddy_folder: "{{ jenkins_app_folder }}/caddy"
