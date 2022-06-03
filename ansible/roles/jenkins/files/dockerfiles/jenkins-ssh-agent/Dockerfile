@@ -9,9 +9,6 @@ RUN apt-get update \
     software-properties-common \
   && rm -rf /var/lib/apt/lists/*
 
-# prepare folder for artifact publishing
-RUN mkdir -p /var/www/jenkins && chown jenkins:jenkins -R /var/www/jenkins
-
 # install docker CLI to be used in docker-workflow plugin
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
 RUN apt-key fingerprint 0EBFCD88
@@ -21,6 +18,9 @@ RUN apt-get update \
     docker-ce-cli \
   && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /var/jenkins/agent-1 \
-  && mkdir -p /var/jenkins/agent-2 \
+# prepare folder for artifact publishing
+RUN mkdir -p /var/www/jenkins && chown jenkins:jenkins -R /var/www/jenkins
+
+# prepare individual home folders for agents
+RUN mkdir -p /var/jenkins/agent-1 && mkdir -p /var/jenkins/agent-2 \
   && chown -R jenkins:jenkins /var/jenkins/ \

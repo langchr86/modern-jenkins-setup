@@ -194,6 +194,7 @@ This is still groovy syntax but a more abstracted DSL to define Jenkins Pipeline
 ### Nodes, Agents and Executors
 
 * [Managing Nodes](https://www.jenkins.io/doc/book/managing/nodes/)
+* [Base docker image for SSH connected agents](https://hub.docker.com/r/jenkins/ssh-agent)
 * [Inbound Agent in Docker](https://github.com/jenkinsci/remoting/blob/master/docs/inbound-agent.md)
 * [Instance Identity](https://jenkins.localhost/instance-identity/)
 
