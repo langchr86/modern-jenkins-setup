@@ -74,6 +74,7 @@ Simply add the credential here: [Global Credentials](https://jenkins.localhost/c
 * Use the complete content of the following file as private key: [rsa-key-modern-jenkins-20220602.opriv](credentials/rsa-key-modern-jenkins-20220602.opriv)
 * Passphrase: `modern`
 
+Now we need to restart Jenkins: `sudo systemctl restart jenkins`
 
 
 Working with the VM
