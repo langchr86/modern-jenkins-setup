@@ -5,6 +5,7 @@ RUN apt-get update \
     apt-transport-https \
     ca-certificates \
     curl \
+    git \
     gnupg2 \
     software-properties-common \
   && rm -rf /var/lib/apt/lists/*
