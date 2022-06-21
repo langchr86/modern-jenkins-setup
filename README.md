@@ -165,6 +165,16 @@ For example like:
 
 
 
+Presentation
+------------
+
+This example was part of a presentation that shows how containers can be used
+for a versioned and easy to maintain jenkins setup.
+
+Slides: [presentation.pdf](docs/presentation.pdf)
+
+
+
 Documentation
 -------------
 
