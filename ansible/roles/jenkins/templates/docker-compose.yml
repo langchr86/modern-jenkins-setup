@@ -1,8 +1,9 @@
-version: '3.5'
+version: '2.4'
 services:
   jenkins-controller:
     container_name: jenkins-controller
     build: {{ jenkins_dockerfiles_folder }}/jenkins-controller
+    runtime: sysbox-runc
     restart: always
     environment:
       - JAVA_OPTS=-Duser.timezone=Europe/Zurich -Djenkins.install.runSetupWizard=false -Dorg.jenkinsci.plugins.durabletask.BourneShellScript.LAUNCH_DIAGNOSTICS=true -Dhudson.slaves.WorkspaceList=-
@@ -16,54 +17,28 @@ services:
   jenkins-ssh-agent-1:
     container_name: jenkins-ssh-agent-1
     build: {{ jenkins_dockerfiles_folder }}/jenkins-ssh-agent
+    runtime: sysbox-runc
     restart: always
     environment:
       - JENKINS_AGENT_SSH_PUBKEY=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC9bKxkJIUt7As5WnjrmmU7Ht21pu9Qbt001SSU5xqNRXkkNNRh/7axo+bCSJSWzREyMcAMEP/SZa8fXQrJYhTOFnFWE3Zj2R7FZn6RnsJpgrTfX8HMBYsNgHGK7iv2iZMKdF3QM0Op/VYEznZKFVlAAV8PoNxMOpYMC0bkJmmR76lrD66dzcKBwSbn2la9ZEY9XX90BdX44lMSo6tSwxF3WVHgw6+n4pVEDoLEGyIM8L5FzvVh6elmkQu9+NOT8y26b1VM2emFQrHpdtm7iImkZqJpHe2aCyf90SXe2EjvtEDXxDhRPaRBJHgadTUdx6wOqIMVz3358Pm3uu1/ET3l rsa-key-modern-jenkins-20220602
-      - DOCKER_HOST=tcp://docker:2376
-      - DOCKER_CERT_PATH=/certs/client
-      - DOCKER_TLS_VERIFY=1
     networks:
       jenkins:
     volumes:
-      - jenkins-docker-certs:/certs/client:ro
       - jenkins-www:/var/www/jenkins
       - jenkins-agent-1-home:/var/jenkins/agent-1
 
   jenkins-ssh-agent-2:
     container_name: jenkins-ssh-agent-2
     build: {{ jenkins_dockerfiles_folder }}/jenkins-ssh-agent
+    runtime: sysbox-runc
     restart: always
     environment:
       - JENKINS_AGENT_SSH_PUBKEY=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC9bKxkJIUt7As5WnjrmmU7Ht21pu9Qbt001SSU5xqNRXkkNNRh/7axo+bCSJSWzREyMcAMEP/SZa8fXQrJYhTOFnFWE3Zj2R7FZn6RnsJpgrTfX8HMBYsNgHGK7iv2iZMKdF3QM0Op/VYEznZKFVlAAV8PoNxMOpYMC0bkJmmR76lrD66dzcKBwSbn2la9ZEY9XX90BdX44lMSo6tSwxF3WVHgw6+n4pVEDoLEGyIM8L5FzvVh6elmkQu9+NOT8y26b1VM2emFQrHpdtm7iImkZqJpHe2aCyf90SXe2EjvtEDXxDhRPaRBJHgadTUdx6wOqIMVz3358Pm3uu1/ET3l rsa-key-modern-jenkins-20220602
-      - DOCKER_HOST=tcp://docker:2376
-      - DOCKER_CERT_PATH=/certs/client
-      - DOCKER_TLS_VERIFY=1
     networks:
       jenkins:
     volumes:
-      - jenkins-docker-certs:/certs/client:ro
       - jenkins-www:/var/www/jenkins
       - jenkins-agent-2-home:/var/jenkins/agent-2
-
-  jenkins-dind:
-    container_name: jenkins-dind
-    image: docker:20.10.16-dind
-    privileged: true
-    restart: always
-    environment:
-      - DOCKER_TLS_CERTDIR=/certs
-    networks:
-      jenkins:
-        aliases:
-          - docker
-    volumes:
-      - jenkins-docker-certs:/certs/client
-      - jenkins-www:/var/www/jenkins
-      - {{ jenkins_docker_folder }}/daemon.json:/etc/docker/daemon.json:ro
-      - jenkins-agent-1-home:/var/jenkins/agent-1
-      - jenkins-agent-2-home:/var/jenkins/agent-2
-    ports:
-      - 2376:2376
 
   jenkins-caddy:
     container_name: jenkins-caddy
@@ -86,6 +61,5 @@ volumes:
   jenkins-controller-home:
   jenkins-agent-1-home:
   jenkins-agent-2-home:
-  jenkins-docker-certs:
   jenkins-www:
   jenkins-caddy-data:

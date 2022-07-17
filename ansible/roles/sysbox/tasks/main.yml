@@ -1,0 +1,81 @@
+---
+- name: Install shiftfs dependencies
+  become: yes
+  apt:
+    name:
+      - make
+      - dkms
+      - git
+      - wget
+  when: ansible_distribution == 'Debian'
+
+- name: Get loaded Kernel modules
+  shell:
+    cmd: lsmod
+  changed_when: no
+  register: loaded_modules
+  ignore_errors: True
+  when: ansible_distribution == 'Debian'
+
+- name: Determine shiftfs branch
+  set_fact:
+    shiftfs_branch: "{{ item.branch_name }}"
+  when:
+  - ansible_distribution == 'Debian'
+  - ansible_facts["kernel"] is version(item.ge, operator='>=')
+  - ansible_facts["kernel"] is version(item.lt, operator='<')
+  loop:
+    - branch_name: "k5.4"
+      ge: "5.4.0"
+      lt: "5.5.0"
+    - branch_name: "k5.10"
+      ge: "5.8.0"
+      lt: "5.11.0"
+    - branch_name: "k5.13"
+      ge: "5.13.0"
+      lt: "5.15.0"
+
+- name: Clone shiftfs source
+  become: yes
+  git:
+    repo: https://github.com/toby63/shiftfs-dkms.git
+    dest: /usr/local/src/shiftfs-dkms
+    version: "{{ shiftfs_branch }}"
+    clone: yes
+    update: yes
+  register: shiftfs_src_update
+  when: ansible_distribution == 'Debian'
+
+- name: Remove old shiftfs
+  become: yes
+  shell:
+    cmd: "./remove1"
+    chdir: /usr/local/src/shiftfs-dkms
+  ignore_errors: yes
+  when:
+    - ansible_distribution == 'Debian'
+    - shiftfs_src_update.changed
+    - ("shiftfs" in loaded_modules.stdout)
+
+- name: Update shiftfs.c
+  become: yes
+  shell:
+    cmd: "./update1"
+    chdir: /usr/local/src/shiftfs-dkms
+  when:
+    - ansible_distribution == 'Debian'
+    - shiftfs_src_update.changed
+
+- name: Compile and install shiftfs with dkms
+  become: yes
+  shell:
+    cmd: "make -f Makefile.dkms"
+    chdir: /usr/local/src/shiftfs-dkms
+  when:
+    - ansible_distribution == 'Debian'
+    - shiftfs_src_update.changed or ("shiftfs" not in loaded_modules.stdout)
+
+- name: Install sysbox deb package
+  become: yes
+  apt:
+    deb: https://downloads.nestybox.com/sysbox/releases/v0.5.0/sysbox-ce_0.5.0-0.linux_amd64.deb
