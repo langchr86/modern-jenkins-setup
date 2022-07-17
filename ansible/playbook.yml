@@ -6,4 +6,5 @@
 
   roles:
     - role: dockerio
+    - role: sysbox
     - role: jenkins
